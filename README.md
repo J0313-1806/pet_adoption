@@ -7,7 +7,7 @@ A new Flutter project.
 Pet adoption application.
 Using GetX State Management and MVC Pattern.
 
-- Save pet for later and add it to your wishlist
+- Save pet for later by adding them to your wishlist
 - Adopted pets are shown in history
 - Search by gender/name/species
 - Categorised by Species for easy adoption
