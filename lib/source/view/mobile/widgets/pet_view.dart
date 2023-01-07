@@ -99,13 +99,25 @@ class PetView extends StatelessWidget {
                               ),
                             ),
                             page == 2
-                                ? OutlinedButton(
-                                    onPressed: () =>
+                                ? InkWell(
+                                    onTap: () =>
                                         _productController.onOfferSendTap(
                                             animals[
                                                 animals.keys.elementAt(index)]!,
                                             false),
-                                    child: const Text("CANCEL"),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(3.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        border: Border.all(color: Colors.blue),
+                                      ),
+                                      child: const Text(
+                                        "CANCEL",
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.red),
+                                      ),
+                                    ),
                                   )
                                 : LikeButton(
                                     onTap: (isLiked) async {

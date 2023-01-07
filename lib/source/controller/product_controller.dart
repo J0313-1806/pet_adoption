@@ -1,10 +1,18 @@
 import 'dart:developer';
+import 'package:confetti/confetti.dart';
 import 'package:get/get.dart';
 import 'package:pet_adoption/source/controller/home_controller.dart';
 import 'package:pet_adoption/source/database/database.dart';
 import 'package:pet_adoption/source/model/animal_model.dart';
 
-class ProductController extends GetxController {
+class ProductController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  @override
+  void onClose() {
+    confettiController.dispose();
+    super.onClose();
+  }
+
   final HomeController _homeController = Get.find();
 
   RxInt currentPage = RxInt(0);
@@ -42,6 +50,7 @@ class ProductController extends GetxController {
     }
   }
 
+  ConfettiController confettiController = ConfettiController();
   List<String> productSpecs = ["AGE", "SPECIES", "GENDER"];
   RxBool sendingOfferLoader = RxBool(false);
   RxBool offerSent = RxBool(false);
@@ -49,12 +58,15 @@ class ProductController extends GetxController {
   void onOfferSendTap(AnimalModel animal, bool offer) async {
     try {
       sendingOfferLoader(true);
+
       if (!animal.offered && offer) {
         _homeController.animalList.update(animal.name, (value) {
           value.offered = offer;
           return value;
         });
         DataStorage.orderPet(animal.name);
+        await Future.delayed(const Duration(milliseconds: 1000));
+        confettiController.play();
         await Future.delayed(const Duration(milliseconds: 1500));
       } else if (!offer) {
         historyList.remove(animal.name);
@@ -64,6 +76,7 @@ class ProductController extends GetxController {
       log("on send offer error: $e");
     } finally {
       sendingOfferLoader(false);
+      confettiController.stop();
     }
   }
 
@@ -79,5 +92,10 @@ class ProductController extends GetxController {
     } catch (e) {
       log("couldnt fetch history");
     }
+  }
+
+  RxInt photoIndex = RxInt(0);
+  void onPhotoViewChange(int index) {
+    photoIndex(index);
   }
 }

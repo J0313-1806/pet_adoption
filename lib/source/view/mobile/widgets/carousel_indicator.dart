@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pet_adoption/source/controller/product_controller.dart';
 import 'package:pet_adoption/source/model/animal_model.dart';
+import 'package:pet_adoption/source/view/mobile/widgets/pinch_to_zoom.dart';
 
 class CarouselWithIndicator extends StatelessWidget {
   const CarouselWithIndicator(
@@ -17,24 +18,30 @@ class CarouselWithIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CarouselSlider.builder(
-          carouselController: _carouselController,
-          itemCount: 3,
-          itemBuilder: (context, index, realIndex) {
-            return Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(19.0),
-                image: DecorationImage(
-                  image: AssetImage(animal.picture),
-                  fit: BoxFit.cover,
-                ),
+        InkWell(
+          onTap: () => Get.to(() => PinchToZoom(image: animal.picture)),
+          child: Hero(
+            tag: animal.picture,
+            child: CarouselSlider.builder(
+              carouselController: _carouselController,
+              itemCount: 3,
+              itemBuilder: (context, index, realIndex) {
+                return Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(19.0),
+                    image: DecorationImage(
+                      image: AssetImage(animal.picture),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
+              options: CarouselOptions(
+                onPageChanged: productController.onCarouselPageChange,
               ),
-            );
-          },
-          options: CarouselOptions(
-            onPageChanged: productController.onCarouselPageChange,
+            ),
           ),
         ),
         Positioned(

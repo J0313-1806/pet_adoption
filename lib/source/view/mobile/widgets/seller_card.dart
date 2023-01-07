@@ -8,7 +8,7 @@ class SellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 18, right: 18),
+      margin: const EdgeInsets.only(left: 18, right: 18, bottom: 15),
       decoration: BoxDecoration(
         color: Get.isDarkMode ? const Color(0xff292d32) : Colors.white,
         borderRadius: BorderRadius.circular(16.0),
